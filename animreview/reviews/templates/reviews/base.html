@@ -1,0 +1,62 @@
+{% load static %}
+{% load reviews_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="{% static "reviews/css/styles.css" %}" />
+    <link rel="shortcut icon" href="{% static "reviews/images/main.ico" %}" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <script type="text/javascript" src="{% static 'reviews/js/jquery-3.6.0.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="without-footer">
+        <header class="header">
+            <div class="nav">
+                <ul class="menu">
+                    <a href="{% url 'index' %}" class="logo"></a>
+                    {% for m in menu %}
+                        <li class="beforlast"><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+                    {% endfor %}
+                    {% if user.is_authenticated %}
+                        <li class="beforlast"><a href="{% url 'profile_update' user.id %}">Профиль</a></li>
+                        <li class="last"><img class="avatar-menu" src="{{ MEDIA_URL }}{{ user.avatar }}"> | <a href="{% url 'logout' %}">Выйти</a></li>
+                    {% else %}
+                        <li class="last"><a href="{% url 'login' %}">Войти</a> / <a href="{% url 'register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="search">
+                    <div class="searchfield">
+                        <form method="GET" action="{% url 'index' %}">
+                            <input name="search" type="text" placeholder="Искать здесь...">
+                            <button type="submit" class="arrow-circle">
+                                <svg class="arrow-circle-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 32 32">
+                                    <g fill="none" stroke="#337AB7" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
+                                        <circle class="arrow-circle-iconcircle" cx="16" cy="16" r="15.12"></circle>
+                                        <path class="arrow-circle-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% block content %}
+                {% endblock %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Text</p>
+    </footer>
+    {% block script %}
+    {% endblock %}
+    <script type="text/javascript" src="{% static 'reviews/js/index.js' %}"></script>
+</body>
+</html>

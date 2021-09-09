@@ -1,0 +1,102 @@
+{% extends 'reviews/base.html' %}
+{% load reviews_tags %}
+
+{% block content %}
+    <div class="panelposts">
+
+        <div class="genre">
+        <span class="choose">Поиск по категории</span>
+            <div class="dropdown">
+                <div class="select">
+                    <span>Выбрать категорию</span>
+                    <i class="fa fa-chevron-left"></i>
+                </div>
+                <input type="hidden" name="gender">
+                <div class="dropdown-menu">
+                    {% if genre_selected == 0 %}
+                        <span class="dropdown-item">Все категории</span>
+                    {% else %}
+                        <a class="dropdown-item" href="{% url 'index' %}">Все категории</a>
+                    {% endif %}
+    {#                          {% getgen as genres %}#}
+                    {% for g in genres %}
+                        {% if g.pk == genre_selected %}
+                            <span class="dropdown-item">{{ g.name }}</span>
+                        {% else %}
+                            <a class="dropdown-item" href="{{ g.get_absolute_url }}">{{ g.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+    {#                          <li id="nullify">Обнулить</li>#}
+                </div>
+            </div>
+        <span class="msg"></span>
+    </div>
+
+
+        <div class="posts">
+        <ul class="list">
+            {% for p in posts %}
+                <li class="listinfo">
+                    <h2 class="title">{{ p.title }}</h2>
+                    <div class="postinf">
+                        <img class="photo" src="{{ MEDIA_URL }}{{ p.photo }}" alt="photo title">
+                        <div class="rightpost">
+                            <div>
+                                <h3 class="genrepost">Жанры:</h3>
+                                {% for g in p.genre.all %}
+                                    {% if forloop.last %}
+                                        <h4 class="genrepost">{{ g.name }}</h4>
+                                    {% else %}
+                                        <h4 class="genrepost">{{ g.name }},</h4>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <h3 class="rating-post">Рейтинг: {{ p.rating }}</h3>
+                            {% autoescape on %}
+                                <h3 class="description">Описание:</h3>
+                                <p class="description"> {{ p.text|truncatewords:70 }}</p>
+                            {% endautoescape %}
+                            <div class="footerpost">
+                                <div class="user">
+                                    <h3 class="nick-name-author">{{ p.user }}</h3>
+                                    <img class="avatarpost" src="{{ MEDIA_URL }}{{ p.user.avatar }}">
+                                </div>
+                                <a class="link-read-post" href="{{ p.get_absolute_url }}"><button class="button-post">Читать пост</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+            {% if page_obj.has_other_pages %}
+                {% if page_obj.has_previous %}
+                    <li class="page-num">
+                        <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                    </li>
+                {% endif %}
+                <nav class="list-pages">
+                    {% for p in paginator.page_range %}
+                        {% if page_obj.number == p %}
+                            <a class="active" href="?page={{ p }}">{{ p }}</a>
+                        {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:2 %}
+                            <li class="page-num">
+                                <a href="?page={{ p }}">{{ p }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+                {% if page_obj.has_next%}
+                    <li class="page-num">
+                        <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    </div>
+
+{% endblock %}
+

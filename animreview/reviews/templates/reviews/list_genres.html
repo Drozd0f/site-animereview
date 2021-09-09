@@ -1,0 +1,7 @@
+{% for g in genres %}
+    {% if g.pk == genre_selected %}
+        <span class="dropdown-item">{{ g.name }}</span>
+    {% else %}
+        <a class="dropdown-item" href="{{ g.get_absolute_url }}">{{ g.name }}</a>
+    {% endif %}
+{% endfor %}

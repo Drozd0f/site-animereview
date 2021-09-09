@@ -1,0 +1,42 @@
+{% extends 'reviews/base.html' %}
+
+{% block content %}
+    <div class="solo-post">
+        <div class="readable-post">
+            <div class="header-post">
+                <h1 class="title-name">{{ post.title }}</h1>
+            </div>
+            <div class="post">
+                <img class="photo-post" src="{{ MEDIA_URL }}{{ post.photo }}">
+                <div class="post-inf">
+                    <div class="content-post">
+                        <div class="genre-post">
+                            <h3 class="genrepost">Жанры:</h3>
+                            {% for g in post.genre.all %}
+                                {% if forloop.last %}
+                                    <h4 class="genrepost">{{ g.name }}</h4>
+                                {% else %}
+                                    <h4 class="genrepost">{{ g.name }},</h4>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <h2 class="rating-post">Рейтинг: {{ post.rating }}</h2>
+                        <h2 class="description">Описание: </h2> {{ post.text | linebreaks }}
+                    </div>
+                    <div class="footer-post">
+                        <h2 class="announcement_author">Автор поста: </h2>
+                        <div class="author-post">
+                            <h2 class="nick-author">{{ post.user }}</h2>
+                            <img class="avatar-author" src="{{ MEDIA_URL }}{{ post.user.avatar }}">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-post">
+            <h1>Коментарии</h1>
+        </div>
+    </div>
+{% endblock %}

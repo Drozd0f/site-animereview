@@ -1,0 +1,23 @@
+{% extends 'reviews/base.html' %}
+
+{% block content %}
+        <div class="login-register-form">
+            <h1>{{ title }}</h1>
+
+            <form method="post">
+
+                {% csrf_token %}
+                {% for f in form %}
+{#                    <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label> #}
+                    <div class="group">
+                        {{ f }}
+                        <span class="bar"></span>
+                        <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        <div class="form-error">{{ f.errors }}</div>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="form-button">Зарегистрироваться</button>
+
+            </form>
+        </div>
+{% endblock %}
