@@ -1,5 +1,4 @@
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound
@@ -9,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-import pdb
+from rest_framework import generics
+
 
 from .forms import AddPostForm, RegisterUserForm, LoginUserForm
 from .models import *
@@ -18,7 +18,7 @@ from .utils import *
 # Create your views here.
 
 
-class ReviewsHome(DataMixin, ListView):
+class ReviewsHome(DataMixin, ListView, generics.CreateAPIView):
     model = Posts
     template_name = 'reviews/index.html'
     context_object_name = 'posts'

@@ -7,10 +7,6 @@ from pytils.translit import slugify
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to="avatars/", blank=True, verbose_name='Аватар')
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
-    #
-    # def get_absolute_url(self):
-    #     return reverse('user', kwargs={'user_slug': self.slug})
 
 
 class Posts(models.Model):
